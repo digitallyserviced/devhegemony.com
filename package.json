@@ -6,7 +6,8 @@
     "dev": "yarn tinacms server:start -c \"next dev\"",
     "build": "yarn tinacms server:start -c \"next build\"",
     "start": "yarn tinacms server:start -c \"next start\"",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:gh":"yarn tinacms build"
   },
   "dependencies": {
     "@accessible/drawer": "^3.0.2",
