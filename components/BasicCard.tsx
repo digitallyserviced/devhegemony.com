@@ -1,4 +1,5 @@
 import NextImage from 'next/image';
+import { useId } from 'react';
 import styled from 'styled-components';
 
 interface BasicCardProps {
@@ -9,7 +10,7 @@ interface BasicCardProps {
 
 export default function BasicCard({ title, description, imageUrl }: BasicCardProps) {
   return (
-    <Card>
+    <Card key={useId()}>
       <NextImage src={imageUrl} width={128} height={128} alt={title} />
       <Title>{title}</Title>
       <Description>{description}</Description>
