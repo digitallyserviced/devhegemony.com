@@ -1,8 +1,4 @@
-import { defineSchema } from '@tinacms/cli';
-
-export default defineSchema({
-  collections: [
-    {
+export const BlogPosts = {
       label: 'Blog Posts',
       name: 'posts',
       path: 'posts',
@@ -138,6 +134,10 @@ export default defineSchema({
           ],
         },
       ],
-    },
-  ],
-});
+    }
+// export default defineSchema({
+//   collections: [
+//     BlogPosts
+//   ],
+// });
+// export { BlogPosts}
