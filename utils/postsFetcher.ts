@@ -12,11 +12,11 @@ export function getAllPostsSlugs() {
 }
 
 function normalizePostName(postName: string) {
-  return postName.replace('.mdx', '');
+  return postName.replace('.md', '.md');
 }
 
 export async function getSinglePost(slug: string): Promise<SingleArticle> {
-  const filePath = path.join(getPostsDirectory(), slug + '.mdx');
+  const filePath = path.join(getPostsDirectory(), slug );
   const contents = fs.readFileSync(filePath, 'utf8');
   const { data: meta, content } = matter(contents);
 

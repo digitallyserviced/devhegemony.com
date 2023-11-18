@@ -7,3 +7,85 @@ fragment PostsParts on Posts {
   imageUrl
   body
 }
+
+fragment PostParts on Post {
+  __typename
+  title
+  heroImg
+  excerpt
+  author {
+    ... on Author {
+      __typename
+      name
+      avatar
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  date
+  _body
+}
+
+fragment AuthorParts on Author {
+  __typename
+  name
+  avatar
+}
+
+fragment PageParts on Page {
+  __typename
+  title
+  blocks {
+    __typename
+    ... on PageBlocksHero {
+      tagline
+      headline
+      text
+      actions {
+        __typename
+        label
+        type
+        icon
+        link
+      }
+      image {
+        __typename
+        src
+        alt
+      }
+      color
+    }
+    ... on PageBlocksFeatures {
+      items {
+        __typename
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        title
+        text
+      }
+      color
+    }
+    ... on PageBlocksContent {
+      body
+      color
+    }
+    ... on PageBlocksTestimonial {
+      quote
+      author
+      color
+    }
+  }
+}

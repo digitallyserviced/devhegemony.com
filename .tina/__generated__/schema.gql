@@ -55,10 +55,19 @@ type Query {
   document(collection: String, relativePath: String): DocumentNode!
   posts(relativePath: String): Posts!
   postsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostsFilter): PostsConnection!
+  post(relativePath: String): Post!
+  postConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostFilter): PostConnection!
+  author(relativePath: String): Author!
+  authorConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: AuthorFilter): AuthorConnection!
+  page(relativePath: String): Page!
+  pageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PageFilter): PageConnection!
 }
 
 input DocumentFilter {
   posts: PostsFilter
+  post: PostFilter
+  author: AuthorFilter
+  page: PageFilter
 }
 
 type DocumentConnectionEdges {
@@ -84,7 +93,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Posts | Folder
+union DocumentNode = Posts | Post | Author | Page | Folder
 
 type Posts implements Node & Document {
   title: String
@@ -130,13 +139,21 @@ input PostsBodyCodeFilter {
   caption: StringFilter
 }
 
-input PostsBodyH2Filter
+input PostsBodyH2Filter {
+  src: StringFilter
+}
 
-input PostsBodyH3Filter
+input PostsBodyH3Filter {
+  src: StringFilter
+}
 
-input PostsBodyBrFilter
+input PostsBodyBrFilter {
+  src: StringFilter
+}
 
-input PostsBodyPFilter
+input PostsBodyPFilter {
+  src: StringFilter
+}
 
 input PostsBodyFilter {
   Quote: PostsBodyQuoteFilter
@@ -168,6 +185,257 @@ type PostsConnection implements Connection {
   edges: [PostsConnectionEdges]
 }
 
+union PostAuthor = Author
+
+type Post implements Node & Document {
+  title: String!
+  heroImg: String
+  excerpt: JSON
+  author: PostAuthor
+  date: String
+  _body: JSON
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ImageFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input RichTextFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+}
+
+input PostAuthorFilter {
+  author: AuthorFilter
+}
+
+input DatetimeFilter {
+  after: String
+  before: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input Post_bodyTableTableRowsTableCellsFilter {
+  value: RichTextFilter
+}
+
+input Post_bodyTableTableRowsFilter {
+  tableCells: Post_bodyTableTableRowsTableCellsFilter
+}
+
+input Post_bodyTableFilter {
+  firstRowHeader: BooleanFilter
+  align: StringFilter
+  tableRows: Post_bodyTableTableRowsFilter
+}
+
+input Post_bodyDateTimeFilter {
+  format: StringFilter
+}
+
+input Post_bodyBlockQuoteFilter {
+  children: RichTextFilter
+  authorName: StringFilter
+}
+
+input Post_bodyNewsletterSignupFilter {
+  children: RichTextFilter
+  placeholder: StringFilter
+  buttonText: StringFilter
+  disclaimer: RichTextFilter
+}
+
+input Post_bodyFilter {
+  table: Post_bodyTableFilter
+  DateTime: Post_bodyDateTimeFilter
+  BlockQuote: Post_bodyBlockQuoteFilter
+  NewsletterSignup: Post_bodyNewsletterSignupFilter
+}
+
+input PostFilter {
+  title: StringFilter
+  heroImg: ImageFilter
+  excerpt: RichTextFilter
+  author: PostAuthorFilter
+  date: DatetimeFilter
+  _body: Post_bodyFilter
+}
+
+type PostConnectionEdges {
+  cursor: String!
+  node: Post
+}
+
+type PostConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [PostConnectionEdges]
+}
+
+type Author implements Node & Document {
+  name: String!
+  avatar: String
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input AuthorFilter {
+  name: StringFilter
+  avatar: ImageFilter
+}
+
+type AuthorConnectionEdges {
+  cursor: String!
+  node: Author
+}
+
+type AuthorConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [AuthorConnectionEdges]
+}
+
+type PageBlocksHeroActions {
+  label: String
+  type: String
+  icon: Boolean
+  link: String
+}
+
+type PageBlocksHeroImage {
+  src: String
+  alt: String
+}
+
+type PageBlocksHero {
+  tagline: String
+  headline: String
+  text: JSON
+  actions: [PageBlocksHeroActions]
+  image: PageBlocksHeroImage
+  color: String
+}
+
+type PageBlocksFeaturesItemsIcon {
+  name: String
+  color: String
+  style: String
+}
+
+type PageBlocksFeaturesItems {
+  icon: PageBlocksFeaturesItemsIcon
+  title: String
+  text: String
+}
+
+type PageBlocksFeatures {
+  items: [PageBlocksFeaturesItems]
+  color: String
+}
+
+type PageBlocksContent {
+  body: JSON
+  color: String
+}
+
+type PageBlocksTestimonial {
+  quote: String
+  author: String
+  color: String
+}
+
+union PageBlocks = PageBlocksHero | PageBlocksFeatures | PageBlocksContent | PageBlocksTestimonial
+
+type Page implements Node & Document {
+  title: String!
+  blocks: [PageBlocks]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input PageBlocksHeroActionsFilter {
+  label: StringFilter
+  type: StringFilter
+  icon: BooleanFilter
+  link: StringFilter
+}
+
+input PageBlocksHeroImageFilter {
+  src: ImageFilter
+  alt: StringFilter
+}
+
+input PageBlocksHeroFilter {
+  tagline: StringFilter
+  headline: StringFilter
+  text: RichTextFilter
+  actions: PageBlocksHeroActionsFilter
+  image: PageBlocksHeroImageFilter
+  color: StringFilter
+}
+
+input PageBlocksFeaturesItemsIconFilter {
+  name: StringFilter
+  color: StringFilter
+  style: StringFilter
+}
+
+input PageBlocksFeaturesItemsFilter {
+  icon: PageBlocksFeaturesItemsIconFilter
+  title: StringFilter
+  text: StringFilter
+}
+
+input PageBlocksFeaturesFilter {
+  items: PageBlocksFeaturesItemsFilter
+  color: StringFilter
+}
+
+input PageBlocksContentFilter {
+  body: RichTextFilter
+  color: StringFilter
+}
+
+input PageBlocksTestimonialFilter {
+  quote: StringFilter
+  author: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksFilter {
+  hero: PageBlocksHeroFilter
+  features: PageBlocksFeaturesFilter
+  content: PageBlocksContentFilter
+  testimonial: PageBlocksTestimonialFilter
+}
+
+input PageFilter {
+  title: StringFilter
+  blocks: PageBlocksFilter
+}
+
+type PageConnectionEdges {
+  cursor: String!
+  node: Page
+}
+
+type PageConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [PageConnectionEdges]
+}
+
 type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String, relativePath: String!, params: DocumentUpdateMutation!): DocumentNode!
@@ -175,15 +443,27 @@ type Mutation {
   createDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
   updatePosts(relativePath: String!, params: PostsMutation!): Posts!
   createPosts(relativePath: String!, params: PostsMutation!): Posts!
+  updatePost(relativePath: String!, params: PostMutation!): Post!
+  createPost(relativePath: String!, params: PostMutation!): Post!
+  updateAuthor(relativePath: String!, params: AuthorMutation!): Author!
+  createAuthor(relativePath: String!, params: AuthorMutation!): Author!
+  updatePage(relativePath: String!, params: PageMutation!): Page!
+  createPage(relativePath: String!, params: PageMutation!): Page!
 }
 
 input DocumentUpdateMutation {
   posts: PostsMutation
+  post: PostMutation
+  author: AuthorMutation
+  page: PageMutation
   relativePath: String
 }
 
 input DocumentMutation {
   posts: PostsMutation
+  post: PostMutation
+  author: AuthorMutation
+  page: PageMutation
 }
 
 input PostsMutation {
@@ -193,6 +473,81 @@ input PostsMutation {
   tags: String
   imageUrl: String
   body: JSON
+}
+
+input PostMutation {
+  title: String
+  heroImg: String
+  excerpt: JSON
+  author: String
+  date: String
+  _body: JSON
+}
+
+input AuthorMutation {
+  name: String
+  avatar: String
+}
+
+input PageBlocksHeroActionsMutation {
+  label: String
+  type: String
+  icon: Boolean
+  link: String
+}
+
+input PageBlocksHeroImageMutation {
+  src: String
+  alt: String
+}
+
+input PageBlocksHeroMutation {
+  tagline: String
+  headline: String
+  text: JSON
+  actions: [PageBlocksHeroActionsMutation]
+  image: PageBlocksHeroImageMutation
+  color: String
+}
+
+input PageBlocksFeaturesItemsIconMutation {
+  name: String
+  color: String
+  style: String
+}
+
+input PageBlocksFeaturesItemsMutation {
+  icon: PageBlocksFeaturesItemsIconMutation
+  title: String
+  text: String
+}
+
+input PageBlocksFeaturesMutation {
+  items: [PageBlocksFeaturesItemsMutation]
+  color: String
+}
+
+input PageBlocksContentMutation {
+  body: JSON
+  color: String
+}
+
+input PageBlocksTestimonialMutation {
+  quote: String
+  author: String
+  color: String
+}
+
+input PageBlocksMutation {
+  hero: PageBlocksHeroMutation
+  features: PageBlocksFeaturesMutation
+  content: PageBlocksContentMutation
+  testimonial: PageBlocksTestimonialMutation
+}
+
+input PageMutation {
+  title: String
+  blocks: [PageBlocksMutation]
 }
 
 schema {

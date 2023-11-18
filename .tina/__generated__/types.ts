@@ -83,6 +83,12 @@ export type Query = {
   document: DocumentNode;
   posts: Posts;
   postsConnection: PostsConnection;
+  post: Post;
+  postConnection: PostConnection;
+  author: Author;
+  authorConnection: AuthorConnection;
+  page: Page;
+  pageConnection: PageConnection;
 };
 
 
@@ -121,8 +127,56 @@ export type QueryPostsConnectionArgs = {
   filter?: InputMaybe<PostsFilter>;
 };
 
+
+export type QueryPostArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryPostConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PostFilter>;
+};
+
+
+export type QueryAuthorArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryAuthorConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<AuthorFilter>;
+};
+
+
+export type QueryPageArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryPageConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PageFilter>;
+};
+
 export type DocumentFilter = {
   posts?: InputMaybe<PostsFilter>;
+  post?: InputMaybe<PostFilter>;
+  author?: InputMaybe<AuthorFilter>;
+  page?: InputMaybe<PageFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -162,7 +216,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Posts | Folder;
+export type DocumentNode = Posts | Post | Author | Page | Folder;
 
 export type Posts = Node & Document & {
   __typename?: 'Posts';
@@ -209,13 +263,21 @@ export type PostsBodyCodeFilter = {
   caption?: InputMaybe<StringFilter>;
 };
 
-export type PostsBodyH2Filter = {};
+export type PostsBodyH2Filter = {
+  src?: InputMaybe<StringFilter>;
+};
 
-export type PostsBodyH3Filter = {};
+export type PostsBodyH3Filter = {
+  src?: InputMaybe<StringFilter>;
+};
 
-export type PostsBodyBrFilter = {};
+export type PostsBodyBrFilter = {
+  src?: InputMaybe<StringFilter>;
+};
 
-export type PostsBodyPFilter = {};
+export type PostsBodyPFilter = {
+  src?: InputMaybe<StringFilter>;
+};
 
 export type PostsBodyFilter = {
   Quote?: InputMaybe<PostsBodyQuoteFilter>;
@@ -249,6 +311,274 @@ export type PostsConnection = Connection & {
   edges?: Maybe<Array<Maybe<PostsConnectionEdges>>>;
 };
 
+export type PostAuthor = Author;
+
+export type Post = Node & Document & {
+  __typename?: 'Post';
+  title: Scalars['String']['output'];
+  heroImg?: Maybe<Scalars['String']['output']>;
+  excerpt?: Maybe<Scalars['JSON']['output']>;
+  author?: Maybe<PostAuthor>;
+  date?: Maybe<Scalars['String']['output']>;
+  _body?: Maybe<Scalars['JSON']['output']>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ImageFilter = {
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type RichTextFilter = {
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type PostAuthorFilter = {
+  author?: InputMaybe<AuthorFilter>;
+};
+
+export type DatetimeFilter = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type Post_BodyTableTableRowsTableCellsFilter = {
+  value?: InputMaybe<RichTextFilter>;
+};
+
+export type Post_BodyTableTableRowsFilter = {
+  tableCells?: InputMaybe<Post_BodyTableTableRowsTableCellsFilter>;
+};
+
+export type Post_BodyTableFilter = {
+  firstRowHeader?: InputMaybe<BooleanFilter>;
+  align?: InputMaybe<StringFilter>;
+  tableRows?: InputMaybe<Post_BodyTableTableRowsFilter>;
+};
+
+export type Post_BodyDateTimeFilter = {
+  format?: InputMaybe<StringFilter>;
+};
+
+export type Post_BodyBlockQuoteFilter = {
+  children?: InputMaybe<RichTextFilter>;
+  authorName?: InputMaybe<StringFilter>;
+};
+
+export type Post_BodyNewsletterSignupFilter = {
+  children?: InputMaybe<RichTextFilter>;
+  placeholder?: InputMaybe<StringFilter>;
+  buttonText?: InputMaybe<StringFilter>;
+  disclaimer?: InputMaybe<RichTextFilter>;
+};
+
+export type Post_BodyFilter = {
+  table?: InputMaybe<Post_BodyTableFilter>;
+  DateTime?: InputMaybe<Post_BodyDateTimeFilter>;
+  BlockQuote?: InputMaybe<Post_BodyBlockQuoteFilter>;
+  NewsletterSignup?: InputMaybe<Post_BodyNewsletterSignupFilter>;
+};
+
+export type PostFilter = {
+  title?: InputMaybe<StringFilter>;
+  heroImg?: InputMaybe<ImageFilter>;
+  excerpt?: InputMaybe<RichTextFilter>;
+  author?: InputMaybe<PostAuthorFilter>;
+  date?: InputMaybe<DatetimeFilter>;
+  _body?: InputMaybe<Post_BodyFilter>;
+};
+
+export type PostConnectionEdges = {
+  __typename?: 'PostConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Post>;
+};
+
+export type PostConnection = Connection & {
+  __typename?: 'PostConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<PostConnectionEdges>>>;
+};
+
+export type Author = Node & Document & {
+  __typename?: 'Author';
+  name: Scalars['String']['output'];
+  avatar?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type AuthorFilter = {
+  name?: InputMaybe<StringFilter>;
+  avatar?: InputMaybe<ImageFilter>;
+};
+
+export type AuthorConnectionEdges = {
+  __typename?: 'AuthorConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Author>;
+};
+
+export type AuthorConnection = Connection & {
+  __typename?: 'AuthorConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<AuthorConnectionEdges>>>;
+};
+
+export type PageBlocksHeroActions = {
+  __typename?: 'PageBlocksHeroActions';
+  label?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  icon?: Maybe<Scalars['Boolean']['output']>;
+  link?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksHeroImage = {
+  __typename?: 'PageBlocksHeroImage';
+  src?: Maybe<Scalars['String']['output']>;
+  alt?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksHero = {
+  __typename?: 'PageBlocksHero';
+  tagline?: Maybe<Scalars['String']['output']>;
+  headline?: Maybe<Scalars['String']['output']>;
+  text?: Maybe<Scalars['JSON']['output']>;
+  actions?: Maybe<Array<Maybe<PageBlocksHeroActions>>>;
+  image?: Maybe<PageBlocksHeroImage>;
+  color?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksFeaturesItemsIcon = {
+  __typename?: 'PageBlocksFeaturesItemsIcon';
+  name?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  style?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksFeaturesItems = {
+  __typename?: 'PageBlocksFeaturesItems';
+  icon?: Maybe<PageBlocksFeaturesItemsIcon>;
+  title?: Maybe<Scalars['String']['output']>;
+  text?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksFeatures = {
+  __typename?: 'PageBlocksFeatures';
+  items?: Maybe<Array<Maybe<PageBlocksFeaturesItems>>>;
+  color?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksContent = {
+  __typename?: 'PageBlocksContent';
+  body?: Maybe<Scalars['JSON']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksTestimonial = {
+  __typename?: 'PageBlocksTestimonial';
+  quote?: Maybe<Scalars['String']['output']>;
+  author?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocks = PageBlocksHero | PageBlocksFeatures | PageBlocksContent | PageBlocksTestimonial;
+
+export type Page = Node & Document & {
+  __typename?: 'Page';
+  title: Scalars['String']['output'];
+  blocks?: Maybe<Array<Maybe<PageBlocks>>>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type PageBlocksHeroActionsFilter = {
+  label?: InputMaybe<StringFilter>;
+  type?: InputMaybe<StringFilter>;
+  icon?: InputMaybe<BooleanFilter>;
+  link?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksHeroImageFilter = {
+  src?: InputMaybe<ImageFilter>;
+  alt?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksHeroFilter = {
+  tagline?: InputMaybe<StringFilter>;
+  headline?: InputMaybe<StringFilter>;
+  text?: InputMaybe<RichTextFilter>;
+  actions?: InputMaybe<PageBlocksHeroActionsFilter>;
+  image?: InputMaybe<PageBlocksHeroImageFilter>;
+  color?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksFeaturesItemsIconFilter = {
+  name?: InputMaybe<StringFilter>;
+  color?: InputMaybe<StringFilter>;
+  style?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksFeaturesItemsFilter = {
+  icon?: InputMaybe<PageBlocksFeaturesItemsIconFilter>;
+  title?: InputMaybe<StringFilter>;
+  text?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksFeaturesFilter = {
+  items?: InputMaybe<PageBlocksFeaturesItemsFilter>;
+  color?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksContentFilter = {
+  body?: InputMaybe<RichTextFilter>;
+  color?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksTestimonialFilter = {
+  quote?: InputMaybe<StringFilter>;
+  author?: InputMaybe<StringFilter>;
+  color?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksFilter = {
+  hero?: InputMaybe<PageBlocksHeroFilter>;
+  features?: InputMaybe<PageBlocksFeaturesFilter>;
+  content?: InputMaybe<PageBlocksContentFilter>;
+  testimonial?: InputMaybe<PageBlocksTestimonialFilter>;
+};
+
+export type PageFilter = {
+  title?: InputMaybe<StringFilter>;
+  blocks?: InputMaybe<PageBlocksFilter>;
+};
+
+export type PageConnectionEdges = {
+  __typename?: 'PageConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Page>;
+};
+
+export type PageConnection = Connection & {
+  __typename?: 'PageConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<PageConnectionEdges>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addPendingDocument: DocumentNode;
@@ -257,6 +587,12 @@ export type Mutation = {
   createDocument: DocumentNode;
   updatePosts: Posts;
   createPosts: Posts;
+  updatePost: Post;
+  createPost: Post;
+  updateAuthor: Author;
+  createAuthor: Author;
+  updatePage: Page;
+  createPage: Page;
 };
 
 
@@ -298,13 +634,55 @@ export type MutationCreatePostsArgs = {
   params: PostsMutation;
 };
 
+
+export type MutationUpdatePostArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PostMutation;
+};
+
+
+export type MutationCreatePostArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PostMutation;
+};
+
+
+export type MutationUpdateAuthorArgs = {
+  relativePath: Scalars['String']['input'];
+  params: AuthorMutation;
+};
+
+
+export type MutationCreateAuthorArgs = {
+  relativePath: Scalars['String']['input'];
+  params: AuthorMutation;
+};
+
+
+export type MutationUpdatePageArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PageMutation;
+};
+
+
+export type MutationCreatePageArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PageMutation;
+};
+
 export type DocumentUpdateMutation = {
   posts?: InputMaybe<PostsMutation>;
+  post?: InputMaybe<PostMutation>;
+  author?: InputMaybe<AuthorMutation>;
+  page?: InputMaybe<PageMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DocumentMutation = {
   posts?: InputMaybe<PostsMutation>;
+  post?: InputMaybe<PostMutation>;
+  author?: InputMaybe<AuthorMutation>;
+  page?: InputMaybe<PageMutation>;
 };
 
 export type PostsMutation = {
@@ -316,7 +694,88 @@ export type PostsMutation = {
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
+export type PostMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  heroImg?: InputMaybe<Scalars['String']['input']>;
+  excerpt?: InputMaybe<Scalars['JSON']['input']>;
+  author?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  _body?: InputMaybe<Scalars['JSON']['input']>;
+};
+
+export type AuthorMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  avatar?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksHeroActionsMutation = {
+  label?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['Boolean']['input']>;
+  link?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksHeroImageMutation = {
+  src?: InputMaybe<Scalars['String']['input']>;
+  alt?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksHeroMutation = {
+  tagline?: InputMaybe<Scalars['String']['input']>;
+  headline?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['JSON']['input']>;
+  actions?: InputMaybe<Array<InputMaybe<PageBlocksHeroActionsMutation>>>;
+  image?: InputMaybe<PageBlocksHeroImageMutation>;
+  color?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksFeaturesItemsIconMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  style?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksFeaturesItemsMutation = {
+  icon?: InputMaybe<PageBlocksFeaturesItemsIconMutation>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksFeaturesMutation = {
+  items?: InputMaybe<Array<InputMaybe<PageBlocksFeaturesItemsMutation>>>;
+  color?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksContentMutation = {
+  body?: InputMaybe<Scalars['JSON']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksTestimonialMutation = {
+  quote?: InputMaybe<Scalars['String']['input']>;
+  author?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksMutation = {
+  hero?: InputMaybe<PageBlocksHeroMutation>;
+  features?: InputMaybe<PageBlocksFeaturesMutation>;
+  content?: InputMaybe<PageBlocksContentMutation>;
+  testimonial?: InputMaybe<PageBlocksTestimonialMutation>;
+};
+
+export type PageMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  blocks?: InputMaybe<Array<InputMaybe<PageBlocksMutation>>>;
+};
+
 export type PostsPartsFragment = { __typename: 'Posts', title?: string | null, description?: string | null, date?: string | null, tags?: string | null, imageUrl?: string | null, body?: any | null };
+
+export type PostPartsFragment = { __typename: 'Post', title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null };
+
+export type AuthorPartsFragment = { __typename: 'Author', name: string, avatar?: string | null };
+
+export type PagePartsFragment = { __typename: 'Page', title: string, blocks?: Array<{ __typename: 'PageBlocksHero', tagline?: string | null, headline?: string | null, text?: any | null, color?: string | null, actions?: Array<{ __typename: 'PageBlocksHeroActions', label?: string | null, type?: string | null, icon?: boolean | null, link?: string | null } | null> | null, image?: { __typename: 'PageBlocksHeroImage', src?: string | null, alt?: string | null } | null } | { __typename: 'PageBlocksFeatures', color?: string | null, items?: Array<{ __typename: 'PageBlocksFeaturesItems', title?: string | null, text?: string | null, icon?: { __typename: 'PageBlocksFeaturesItemsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | { __typename: 'PageBlocksContent', body?: any | null, color?: string | null } | { __typename: 'PageBlocksTestimonial', quote?: string | null, author?: string | null, color?: string | null } | null> | null };
 
 export type PostsQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -337,6 +796,63 @@ export type PostsConnectionQueryVariables = Exact<{
 
 export type PostsConnectionQuery = { __typename?: 'Query', postsConnection: { __typename?: 'PostsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostsConnectionEdges', cursor: string, node?: { __typename: 'Posts', id: string, title?: string | null, description?: string | null, date?: string | null, tags?: string | null, imageUrl?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
+export type PostQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } };
+
+export type PostConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PostFilter>;
+}>;
+
+
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null } | null> | null } };
+
+export type AuthorQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type AuthorQuery = { __typename?: 'Query', author: { __typename: 'Author', id: string, name: string, avatar?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+
+export type AuthorConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<AuthorFilter>;
+}>;
+
+
+export type AuthorConnectionQuery = { __typename?: 'Query', authorConnection: { __typename?: 'AuthorConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'AuthorConnectionEdges', cursor: string, node?: { __typename: 'Author', id: string, name: string, avatar?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+
+export type PageQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHero', tagline?: string | null, headline?: string | null, text?: any | null, color?: string | null, actions?: Array<{ __typename: 'PageBlocksHeroActions', label?: string | null, type?: string | null, icon?: boolean | null, link?: string | null } | null> | null, image?: { __typename: 'PageBlocksHeroImage', src?: string | null, alt?: string | null } | null } | { __typename: 'PageBlocksFeatures', color?: string | null, items?: Array<{ __typename: 'PageBlocksFeaturesItems', title?: string | null, text?: string | null, icon?: { __typename: 'PageBlocksFeaturesItemsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | { __typename: 'PageBlocksContent', body?: any | null, color?: string | null } | { __typename: 'PageBlocksTestimonial', quote?: string | null, author?: string | null, color?: string | null } | null> | null } };
+
+export type PageConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PageFilter>;
+}>;
+
+
+export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHero', tagline?: string | null, headline?: string | null, text?: any | null, color?: string | null, actions?: Array<{ __typename: 'PageBlocksHeroActions', label?: string | null, type?: string | null, icon?: boolean | null, link?: string | null } | null> | null, image?: { __typename: 'PageBlocksHeroImage', src?: string | null, alt?: string | null } | null } | { __typename: 'PageBlocksFeatures', color?: string | null, items?: Array<{ __typename: 'PageBlocksFeaturesItems', title?: string | null, text?: string | null, icon?: { __typename: 'PageBlocksFeaturesItemsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | { __typename: 'PageBlocksContent', body?: any | null, color?: string | null } | { __typename: 'PageBlocksTestimonial', quote?: string | null, author?: string | null, color?: string | null } | null> | null } | null } | null> | null } };
+
 export const PostsPartsFragmentDoc = gql`
     fragment PostsParts on Posts {
   __typename
@@ -346,6 +862,91 @@ export const PostsPartsFragmentDoc = gql`
   tags
   imageUrl
   body
+}
+    `;
+export const PostPartsFragmentDoc = gql`
+    fragment PostParts on Post {
+  __typename
+  title
+  heroImg
+  excerpt
+  author {
+    ... on Author {
+      __typename
+      name
+      avatar
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  date
+  _body
+}
+    `;
+export const AuthorPartsFragmentDoc = gql`
+    fragment AuthorParts on Author {
+  __typename
+  name
+  avatar
+}
+    `;
+export const PagePartsFragmentDoc = gql`
+    fragment PageParts on Page {
+  __typename
+  title
+  blocks {
+    __typename
+    ... on PageBlocksHero {
+      tagline
+      headline
+      text
+      actions {
+        __typename
+        label
+        type
+        icon
+        link
+      }
+      image {
+        __typename
+        src
+        alt
+      }
+      color
+    }
+    ... on PageBlocksFeatures {
+      items {
+        __typename
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        title
+        text
+      }
+      color
+    }
+    ... on PageBlocksContent {
+      body
+      color
+    }
+    ... on PageBlocksTestimonial {
+      quote
+      author
+      color
+    }
+  }
 }
     `;
 export const PostsDocument = gql`
@@ -403,6 +1004,171 @@ export const PostsConnectionDocument = gql`
   }
 }
     ${PostsPartsFragmentDoc}`;
+export const PostDocument = gql`
+    query post($relativePath: String!) {
+  post(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...PostParts
+  }
+}
+    ${PostPartsFragmentDoc}`;
+export const PostConnectionDocument = gql`
+    query postConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PostFilter) {
+  postConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...PostParts
+      }
+    }
+  }
+}
+    ${PostPartsFragmentDoc}`;
+export const AuthorDocument = gql`
+    query author($relativePath: String!) {
+  author(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...AuthorParts
+  }
+}
+    ${AuthorPartsFragmentDoc}`;
+export const AuthorConnectionDocument = gql`
+    query authorConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: AuthorFilter) {
+  authorConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...AuthorParts
+      }
+    }
+  }
+}
+    ${AuthorPartsFragmentDoc}`;
+export const PageDocument = gql`
+    query page($relativePath: String!) {
+  page(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...PageParts
+  }
+}
+    ${PagePartsFragmentDoc}`;
+export const PageConnectionDocument = gql`
+    query pageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PageFilter) {
+  pageConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...PageParts
+      }
+    }
+  }
+}
+    ${PagePartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
@@ -411,6 +1177,24 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
       },
     postsConnection(variables?: PostsConnectionQueryVariables, options?: C): Promise<{data: PostsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsConnectionQueryVariables, query: string}> {
         return requester<{data: PostsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsConnectionQueryVariables, query: string}, PostsConnectionQueryVariables>(PostsConnectionDocument, variables, options);
+      },
+    post(variables: PostQueryVariables, options?: C): Promise<{data: PostQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostQueryVariables, query: string}> {
+        return requester<{data: PostQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostQueryVariables, query: string}, PostQueryVariables>(PostDocument, variables, options);
+      },
+    postConnection(variables?: PostConnectionQueryVariables, options?: C): Promise<{data: PostConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostConnectionQueryVariables, query: string}> {
+        return requester<{data: PostConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostConnectionQueryVariables, query: string}, PostConnectionQueryVariables>(PostConnectionDocument, variables, options);
+      },
+    author(variables: AuthorQueryVariables, options?: C): Promise<{data: AuthorQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AuthorQueryVariables, query: string}> {
+        return requester<{data: AuthorQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AuthorQueryVariables, query: string}, AuthorQueryVariables>(AuthorDocument, variables, options);
+      },
+    authorConnection(variables?: AuthorConnectionQueryVariables, options?: C): Promise<{data: AuthorConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AuthorConnectionQueryVariables, query: string}> {
+        return requester<{data: AuthorConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AuthorConnectionQueryVariables, query: string}, AuthorConnectionQueryVariables>(AuthorConnectionDocument, variables, options);
+      },
+    page(variables: PageQueryVariables, options?: C): Promise<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}> {
+        return requester<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}, PageQueryVariables>(PageDocument, variables, options);
+      },
+    pageConnection(variables?: PageConnectionQueryVariables, options?: C): Promise<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}> {
+        return requester<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}, PageConnectionQueryVariables>(PageConnectionDocument, variables, options);
       }
     };
   }

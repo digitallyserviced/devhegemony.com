@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         {/*     </TinaCMS> */}
         {/*   } */}
         {/* > */}
-          <Component {...pageProps} />
+        <Component {...pageProps} />
         {/* </TinaEditProvider> */}
         <WaveCta />
         <Footer />

@@ -3024,6 +3024,14 @@
   resolved "https://registry.yarnpkg.com/@tinacms/sharedctx/-/sharedctx-1.0.2.tgz#b12f10b096d04e669ab6ae6a69e0a9526e0a2b37"
   integrity sha512-YApW5GZDauOGRw+edUk7XE8xq84qZbeiT9MsylhlLfDo3oPWvJVtPUHjbXQo45pSyHHEAIfDF0AcNANp193cXw==
 
+"@tinacms/vercel-previews@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@tinacms/vercel-previews/-/vercel-previews-0.0.20.tgz#89eadfff4010255bc3483a7a9a60393f2e7dfe58"
+  integrity sha512-GRvZea1bEx3VlHMp4Odk7nOZ1QljlGfdgtr2bOx+1teEg3lp4tynRsHJxRRTZAZ79c6Vd3ZKcFHigaGmlfNP0g==
+  dependencies:
+    "@vercel/stega" "^0.0.5"
+    tinacms "1.5.24"
+
 "@trysound/sax@0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
@@ -3798,6 +3806,11 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
+
+"@vercel/stega@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@vercel/stega/-/stega-0.0.5.tgz#96e0efd2c7ecfed35f30bf76c7ce618f613fa288"
+  integrity sha512-vvuUYW0rBp4Ea9xv0LilqFyDHAW9tvy4GL70G1ayGisQwpOYIPChmiw/56jqZvpxjE9gjQIApLfglOcdZe3PcA==
 
 "@vitejs/plugin-react@3.1.0":
   version "3.1.0"
