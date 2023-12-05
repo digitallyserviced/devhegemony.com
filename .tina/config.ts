@@ -1,5 +1,5 @@
 import { defineConfig } from "tinacms";
-import {BlogPosts, authors, pages, posts} from "./schema";
+import {BlogPosts, global as glob, authors, pages, posts} from "./schema";
 
 // Your hosting provider likely exposes this as an environment variable
 const branch =
@@ -29,8 +29,7 @@ export default defineConfig({
   // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
-      BlogPosts,
-      posts, authors, pages
+      glob,posts, authors, pages
       // {
       //   name: "post",
       //   label: "Posts",

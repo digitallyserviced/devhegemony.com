@@ -5,13 +5,13 @@ import { Section } from '../util/section'
 import { useTheme } from '../layout'
 import { TinaMarkdown } from 'tinacms/dist/rich-text'
 import type { TinaTemplate } from 'tinacms'
-import { PageBlocksHero } from '../../.tina/__generated__/types'
+import { PageBlocksHero, PageBlocksHeroActions } from '../../.tina/__generated__/types'
 import { tinaField } from 'tinacms/dist/react'
 import { vercelEditInfo } from '@tinacms/vercel-previews'
 
 export const Hero = ({ data }: { data: PageBlocksHero }) => {
   const theme = useTheme()
-  const headlineColorClasses = {
+  const headlineColorClasses:{[key:string]:{}} = {
     blue: 'from-blue-400 to-blue-600',
     teal: 'from-teal-400 to-teal-600',
     green: 'from-green-400 to-green-600',
@@ -23,7 +23,7 @@ export const Hero = ({ data }: { data: PageBlocksHero }) => {
   }
 
   return (
-    <Section color={data.color}>
+    <Section color={data.color as string}>
       <Container
         size="large"
         className="grid grid-cols-1 lg:grid-cols-5 gap-14 items-center justify-center"
@@ -69,8 +69,8 @@ export const Hero = ({ data }: { data: PageBlocksHero }) => {
           {data.actions && (
             <Actions
               className="justify-center lg:justify-start py-2"
-              parentColor={data.color}
-              actions={data.actions}
+              parentColor={data.color as string}
+              actions={data.actions as PageBlocksHeroActions[]}
             />
           )}
         </div>
@@ -79,13 +79,13 @@ export const Hero = ({ data }: { data: PageBlocksHero }) => {
             <div data-tina-field-overlay={tinaField(data.image, 'src')}>
               <img
                 className="absolute w-full rounded-lg max-w-xs lg:max-w-none h-auto blur-2xl brightness-150 contrast-[0.9] dark:brightness-150 saturate-200 opacity-50 dark:opacity-30 mix-blend-multiply dark:mix-blend-hard-light"
-                src={data.image.src}
+                src={data.image.src as string}
                 aria-hidden="true"
               />
               <img
                 className="relative z-10 w-full max-w-xs rounded-lg lg:max-w-none h-auto"
-                alt={data.image.alt}
-                src={data.image.src}
+                alt={data.image.alt as string}
+                src={data.image.src as string}
               />
             </div>
           </div>

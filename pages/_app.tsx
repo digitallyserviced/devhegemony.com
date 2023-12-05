@@ -18,6 +18,7 @@ import NewsletterModal from 'components/NewsletterModal';
 import WaveCta from 'components/WaveCta';
 import { NewsletterModalContextProvider, useNewsletterModalContext } from 'contexts/newsletter-modal.context';
 import { NavItems } from 'types';
+import layoutData from '../content/global/index.json'
 
 const navItems: NavItems = [
   { title: 'Awesome SaaS Features', href: '/features' },
@@ -50,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <Providers>
         <Modals />
-        <Navbar items={navItems} />
+        <Navbar items={layoutData.header.nav} />
         {/* <TinaEditProvider */}
         {/*   editMode={ */}
         {/*     <TinaCMS */}

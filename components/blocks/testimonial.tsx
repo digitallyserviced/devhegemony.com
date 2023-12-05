@@ -7,7 +7,7 @@ import { tinaField } from 'tinacms/dist/react'
 
 export const Testimonial = ({ data }: { data: PageBlocksTestimonial }) => {
   return (
-    <Section color={data.color}>
+    <Section color={data.color as string}>
       <Container size="large">
         <blockquote>
           <div

@@ -340,15 +340,24 @@ var global_default = {
     color: "default",
     nav: [
       {
+        href: "/pricing",
+        label: "Pricing",
+        title: "Pricing",
+        outlined: true
+      },
+      {
         href: "",
+        title: "Home",
         label: "Home"
       },
       {
         href: "about",
+        title: "About",
         label: "About"
       },
       {
         href: "posts",
+        title: "Posts",
         label: "Blog"
       }
     ]
@@ -622,170 +631,8 @@ var testimonialBlockSchema = {
 };
 
 // .tina/schema.ts
-var BlogPosts = {
-  label: "Blog Posts",
-  name: "posts",
-  path: "posts",
-  format: "mdx",
-  fields: [
-    {
-      type: "string",
-      label: "Title",
-      name: "title"
-    },
-    {
-      type: "string",
-      label: "Description",
-      name: "description"
-    },
-    {
-      type: "string",
-      label: "Date",
-      name: "date"
-    },
-    {
-      type: "string",
-      label: "Tags",
-      name: "tags"
-    },
-    {
-      type: "string",
-      label: "Image URL",
-      name: "imageUrl"
-    },
-    {
-      type: "rich-text",
-      label: "Blog Post Body",
-      name: "body",
-      isBody: true,
-      templates: [
-        {
-          name: "Quote",
-          label: "Quote",
-          fields: [
-            {
-              type: "string",
-              name: "content",
-              label: "Content"
-            },
-            {
-              type: "string",
-              name: "author",
-              label: "Author"
-            },
-            {
-              type: "string",
-              name: "cite",
-              label: "Cite"
-            }
-          ]
-        },
-        {
-          name: "ArticleImage",
-          label: "ArticleImage",
-          fields: [
-            {
-              type: "string",
-              name: "src",
-              label: "Src"
-            },
-            {
-              type: "string",
-              name: "caption",
-              label: "Caption"
-            }
-          ]
-        },
-        {
-          name: "Code",
-          label: "Code",
-          fields: [
-            {
-              type: "string",
-              name: "code",
-              label: "Code"
-            },
-            {
-              type: "string",
-              name: "language",
-              label: "Language"
-            },
-            {
-              type: "string",
-              name: "selectedLines",
-              label: "Selected Lines"
-            },
-            {
-              type: "boolean",
-              name: "withCopyButton",
-              label: "With Copy Button"
-            },
-            {
-              type: "boolean",
-              name: "withLineNumbers",
-              label: "With Line Numbers"
-            },
-            {
-              type: "string",
-              name: "caption",
-              label: "Caption"
-            }
-          ]
-        },
-        {
-          name: "h2",
-          label: "H2",
-          inline: true,
-          fields: [
-            {
-              type: "string",
-              name: "src",
-              label: "Src"
-            }
-          ]
-        },
-        {
-          name: "h3",
-          label: "H3",
-          inline: true,
-          fields: [
-            {
-              type: "string",
-              name: "src",
-              label: "Src"
-            }
-          ]
-        },
-        {
-          name: "br",
-          label: "BR",
-          inline: true,
-          fields: [
-            {
-              type: "string",
-              name: "src",
-              label: "Src"
-            }
-          ]
-        },
-        {
-          name: "p",
-          label: "P",
-          inline: true,
-          fields: [
-            {
-              type: "string",
-              name: "src",
-              label: "Src"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-};
 var posts = {
-  label: "Blog Posts",
+  label: "Post",
   name: "post",
   path: "content/posts",
   format: "mdx",
@@ -899,6 +746,169 @@ var posts = {
     }
   ]
 };
+var global = {
+  label: "Global",
+  name: "global",
+  path: "content/global",
+  format: "json",
+  ui: {
+    global: true
+  },
+  fields: [
+    {
+      type: "object",
+      label: "Header",
+      name: "header",
+      fields: [
+        iconSchema,
+        {
+          type: "string",
+          label: "Name",
+          name: "name"
+        },
+        {
+          type: "string",
+          label: "Color",
+          name: "color",
+          options: [
+            { label: "Default", value: "default" },
+            { label: "Primary", value: "primary" }
+          ]
+        },
+        {
+          type: "object",
+          label: "Nav Links",
+          name: "nav",
+          list: true,
+          ui: {
+            itemProps: (item) => {
+              return { label: item?.label };
+            },
+            defaultItem: {
+              href: "home",
+              label: "Home",
+              outlined: false
+            }
+          },
+          fields: [
+            {
+              type: "string",
+              label: "Link",
+              name: "href"
+            },
+            {
+              type: "string",
+              label: "Label",
+              name: "label"
+            },
+            {
+              type: "boolean",
+              label: "Button",
+              name: "outlined"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: "object",
+      label: "Footer",
+      name: "footer",
+      fields: [
+        {
+          type: "string",
+          label: "Color",
+          name: "color",
+          options: [
+            { label: "Default", value: "default" },
+            { label: "Primary", value: "primary" }
+          ]
+        },
+        {
+          type: "object",
+          label: "Social Links",
+          name: "social",
+          fields: [
+            {
+              type: "string",
+              label: "Facebook",
+              name: "facebook"
+            },
+            {
+              type: "string",
+              label: "Twitter",
+              name: "twitter"
+            },
+            {
+              type: "string",
+              label: "Instagram",
+              name: "instagram"
+            },
+            {
+              type: "string",
+              label: "GitHub",
+              name: "github"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: "object",
+      label: "Theme",
+      name: "theme",
+      // @ts-ignore
+      fields: [
+        {
+          type: "string",
+          label: "Primary Color",
+          name: "color",
+          ui: {
+            component: ColorPickerInput
+          }
+        },
+        {
+          type: "string",
+          name: "font",
+          label: "Font Family",
+          options: [
+            {
+              label: "System Sans",
+              value: "sans"
+            },
+            {
+              label: "Nunito",
+              value: "nunito"
+            },
+            {
+              label: "Lato",
+              value: "lato"
+            }
+          ]
+        },
+        {
+          type: "string",
+          name: "darkMode",
+          label: "Dark Mode",
+          options: [
+            {
+              label: "System",
+              value: "system"
+            },
+            {
+              label: "Light",
+              value: "light"
+            },
+            {
+              label: "Dark",
+              value: "dark"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
 var authors = {
   label: "Authors",
   name: "author",
@@ -983,7 +993,7 @@ var config_default = defineConfig2({
   // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
-      BlogPosts,
+      global,
       posts,
       authors,
       pages

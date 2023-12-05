@@ -1,4 +1,4 @@
-import NextImage from 'next/image';
+import NextImage from "next/legacy/image";
 import { useId } from 'react';
 import styled from 'styled-components';
 

@@ -81,8 +81,8 @@ export type Query = {
   collections: Array<Collection>;
   node: Node;
   document: DocumentNode;
-  posts: Posts;
-  postsConnection: PostsConnection;
+  global: Global;
+  globalConnection: GlobalConnection;
   post: Post;
   postConnection: PostConnection;
   author: Author;
@@ -113,18 +113,18 @@ export type QueryDocumentArgs = {
 };
 
 
-export type QueryPostsArgs = {
+export type QueryGlobalArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryPostsConnectionArgs = {
+export type QueryGlobalConnectionArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<PostsFilter>;
+  filter?: InputMaybe<GlobalFilter>;
 };
 
 
@@ -173,7 +173,7 @@ export type QueryPageConnectionArgs = {
 };
 
 export type DocumentFilter = {
-  posts?: InputMaybe<PostsFilter>;
+  global?: InputMaybe<GlobalFilter>;
   post?: InputMaybe<PostFilter>;
   author?: InputMaybe<AuthorFilter>;
   page?: InputMaybe<PageFilter>;
@@ -216,16 +216,56 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Posts | Post | Author | Page | Folder;
+export type DocumentNode = Global | Post | Author | Page | Folder;
 
-export type Posts = Node & Document & {
-  __typename?: 'Posts';
-  title?: Maybe<Scalars['String']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  date?: Maybe<Scalars['String']['output']>;
-  tags?: Maybe<Scalars['String']['output']>;
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  body?: Maybe<Scalars['JSON']['output']>;
+export type GlobalHeaderIcon = {
+  __typename?: 'GlobalHeaderIcon';
+  name?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  style?: Maybe<Scalars['String']['output']>;
+};
+
+export type GlobalHeaderNav = {
+  __typename?: 'GlobalHeaderNav';
+  href?: Maybe<Scalars['String']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
+  outlined?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type GlobalHeader = {
+  __typename?: 'GlobalHeader';
+  icon?: Maybe<GlobalHeaderIcon>;
+  name?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  nav?: Maybe<Array<Maybe<GlobalHeaderNav>>>;
+};
+
+export type GlobalFooterSocial = {
+  __typename?: 'GlobalFooterSocial';
+  facebook?: Maybe<Scalars['String']['output']>;
+  twitter?: Maybe<Scalars['String']['output']>;
+  instagram?: Maybe<Scalars['String']['output']>;
+  github?: Maybe<Scalars['String']['output']>;
+};
+
+export type GlobalFooter = {
+  __typename?: 'GlobalFooter';
+  color?: Maybe<Scalars['String']['output']>;
+  social?: Maybe<GlobalFooterSocial>;
+};
+
+export type GlobalTheme = {
+  __typename?: 'GlobalTheme';
+  color?: Maybe<Scalars['String']['output']>;
+  font?: Maybe<Scalars['String']['output']>;
+  darkMode?: Maybe<Scalars['String']['output']>;
+};
+
+export type Global = Node & Document & {
+  __typename?: 'Global';
+  header?: Maybe<GlobalHeader>;
+  footer?: Maybe<GlobalFooter>;
+  theme?: Maybe<GlobalTheme>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -238,15 +278,10 @@ export type StringFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export type PostsBodyQuoteFilter = {
-  content?: InputMaybe<StringFilter>;
-  author?: InputMaybe<StringFilter>;
-  cite?: InputMaybe<StringFilter>;
-};
-
-export type PostsBodyArticleImageFilter = {
-  src?: InputMaybe<StringFilter>;
-  caption?: InputMaybe<StringFilter>;
+export type GlobalHeaderIconFilter = {
+  name?: InputMaybe<StringFilter>;
+  color?: InputMaybe<StringFilter>;
+  style?: InputMaybe<StringFilter>;
 };
 
 export type BooleanFilter = {
@@ -254,61 +289,54 @@ export type BooleanFilter = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type PostsBodyCodeFilter = {
-  code?: InputMaybe<StringFilter>;
-  language?: InputMaybe<StringFilter>;
-  selectedLines?: InputMaybe<StringFilter>;
-  withCopyButton?: InputMaybe<BooleanFilter>;
-  withLineNumbers?: InputMaybe<BooleanFilter>;
-  caption?: InputMaybe<StringFilter>;
+export type GlobalHeaderNavFilter = {
+  href?: InputMaybe<StringFilter>;
+  label?: InputMaybe<StringFilter>;
+  outlined?: InputMaybe<BooleanFilter>;
 };
 
-export type PostsBodyH2Filter = {
-  src?: InputMaybe<StringFilter>;
+export type GlobalHeaderFilter = {
+  icon?: InputMaybe<GlobalHeaderIconFilter>;
+  name?: InputMaybe<StringFilter>;
+  color?: InputMaybe<StringFilter>;
+  nav?: InputMaybe<GlobalHeaderNavFilter>;
 };
 
-export type PostsBodyH3Filter = {
-  src?: InputMaybe<StringFilter>;
+export type GlobalFooterSocialFilter = {
+  facebook?: InputMaybe<StringFilter>;
+  twitter?: InputMaybe<StringFilter>;
+  instagram?: InputMaybe<StringFilter>;
+  github?: InputMaybe<StringFilter>;
 };
 
-export type PostsBodyBrFilter = {
-  src?: InputMaybe<StringFilter>;
+export type GlobalFooterFilter = {
+  color?: InputMaybe<StringFilter>;
+  social?: InputMaybe<GlobalFooterSocialFilter>;
 };
 
-export type PostsBodyPFilter = {
-  src?: InputMaybe<StringFilter>;
+export type GlobalThemeFilter = {
+  color?: InputMaybe<StringFilter>;
+  font?: InputMaybe<StringFilter>;
+  darkMode?: InputMaybe<StringFilter>;
 };
 
-export type PostsBodyFilter = {
-  Quote?: InputMaybe<PostsBodyQuoteFilter>;
-  ArticleImage?: InputMaybe<PostsBodyArticleImageFilter>;
-  Code?: InputMaybe<PostsBodyCodeFilter>;
-  h2?: InputMaybe<PostsBodyH2Filter>;
-  h3?: InputMaybe<PostsBodyH3Filter>;
-  br?: InputMaybe<PostsBodyBrFilter>;
-  p?: InputMaybe<PostsBodyPFilter>;
+export type GlobalFilter = {
+  header?: InputMaybe<GlobalHeaderFilter>;
+  footer?: InputMaybe<GlobalFooterFilter>;
+  theme?: InputMaybe<GlobalThemeFilter>;
 };
 
-export type PostsFilter = {
-  title?: InputMaybe<StringFilter>;
-  description?: InputMaybe<StringFilter>;
-  date?: InputMaybe<StringFilter>;
-  tags?: InputMaybe<StringFilter>;
-  imageUrl?: InputMaybe<StringFilter>;
-  body?: InputMaybe<PostsBodyFilter>;
-};
-
-export type PostsConnectionEdges = {
-  __typename?: 'PostsConnectionEdges';
+export type GlobalConnectionEdges = {
+  __typename?: 'GlobalConnectionEdges';
   cursor: Scalars['String']['output'];
-  node?: Maybe<Posts>;
+  node?: Maybe<Global>;
 };
 
-export type PostsConnection = Connection & {
-  __typename?: 'PostsConnection';
+export type GlobalConnection = Connection & {
+  __typename?: 'GlobalConnection';
   pageInfo: PageInfo;
   totalCount: Scalars['Float']['output'];
-  edges?: Maybe<Array<Maybe<PostsConnectionEdges>>>;
+  edges?: Maybe<Array<Maybe<GlobalConnectionEdges>>>;
 };
 
 export type PostAuthor = Author;
@@ -585,8 +613,8 @@ export type Mutation = {
   updateDocument: DocumentNode;
   deleteDocument: DocumentNode;
   createDocument: DocumentNode;
-  updatePosts: Posts;
-  createPosts: Posts;
+  updateGlobal: Global;
+  createGlobal: Global;
   updatePost: Post;
   createPost: Post;
   updateAuthor: Author;
@@ -623,15 +651,15 @@ export type MutationCreateDocumentArgs = {
 };
 
 
-export type MutationUpdatePostsArgs = {
+export type MutationUpdateGlobalArgs = {
   relativePath: Scalars['String']['input'];
-  params: PostsMutation;
+  params: GlobalMutation;
 };
 
 
-export type MutationCreatePostsArgs = {
+export type MutationCreateGlobalArgs = {
   relativePath: Scalars['String']['input'];
-  params: PostsMutation;
+  params: GlobalMutation;
 };
 
 
@@ -671,7 +699,7 @@ export type MutationCreatePageArgs = {
 };
 
 export type DocumentUpdateMutation = {
-  posts?: InputMaybe<PostsMutation>;
+  global?: InputMaybe<GlobalMutation>;
   post?: InputMaybe<PostMutation>;
   author?: InputMaybe<AuthorMutation>;
   page?: InputMaybe<PageMutation>;
@@ -679,19 +707,53 @@ export type DocumentUpdateMutation = {
 };
 
 export type DocumentMutation = {
-  posts?: InputMaybe<PostsMutation>;
+  global?: InputMaybe<GlobalMutation>;
   post?: InputMaybe<PostMutation>;
   author?: InputMaybe<AuthorMutation>;
   page?: InputMaybe<PageMutation>;
 };
 
-export type PostsMutation = {
-  title?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  date?: InputMaybe<Scalars['String']['input']>;
-  tags?: InputMaybe<Scalars['String']['input']>;
-  imageUrl?: InputMaybe<Scalars['String']['input']>;
-  body?: InputMaybe<Scalars['JSON']['input']>;
+export type GlobalHeaderIconMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  style?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GlobalHeaderNavMutation = {
+  href?: InputMaybe<Scalars['String']['input']>;
+  label?: InputMaybe<Scalars['String']['input']>;
+  outlined?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type GlobalHeaderMutation = {
+  icon?: InputMaybe<GlobalHeaderIconMutation>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  nav?: InputMaybe<Array<InputMaybe<GlobalHeaderNavMutation>>>;
+};
+
+export type GlobalFooterSocialMutation = {
+  facebook?: InputMaybe<Scalars['String']['input']>;
+  twitter?: InputMaybe<Scalars['String']['input']>;
+  instagram?: InputMaybe<Scalars['String']['input']>;
+  github?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GlobalFooterMutation = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  social?: InputMaybe<GlobalFooterSocialMutation>;
+};
+
+export type GlobalThemeMutation = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  font?: InputMaybe<Scalars['String']['input']>;
+  darkMode?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GlobalMutation = {
+  header?: InputMaybe<GlobalHeaderMutation>;
+  footer?: InputMaybe<GlobalFooterMutation>;
+  theme?: InputMaybe<GlobalThemeMutation>;
 };
 
 export type PostMutation = {
@@ -769,7 +831,7 @@ export type PageMutation = {
   blocks?: InputMaybe<Array<InputMaybe<PageBlocksMutation>>>;
 };
 
-export type PostsPartsFragment = { __typename: 'Posts', title?: string | null, description?: string | null, date?: string | null, tags?: string | null, imageUrl?: string | null, body?: any | null };
+export type GlobalPartsFragment = { __typename: 'Global', header?: { __typename: 'GlobalHeader', name?: string | null, color?: string | null, icon?: { __typename: 'GlobalHeaderIcon', name?: string | null, color?: string | null, style?: string | null } | null, nav?: Array<{ __typename: 'GlobalHeaderNav', href?: string | null, label?: string | null, outlined?: boolean | null } | null> | null } | null, footer?: { __typename: 'GlobalFooter', color?: string | null, social?: { __typename: 'GlobalFooterSocial', facebook?: string | null, twitter?: string | null, instagram?: string | null, github?: string | null } | null } | null, theme?: { __typename: 'GlobalTheme', color?: string | null, font?: string | null, darkMode?: string | null } | null };
 
 export type PostPartsFragment = { __typename: 'Post', title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null };
 
@@ -777,24 +839,24 @@ export type AuthorPartsFragment = { __typename: 'Author', name: string, avatar?:
 
 export type PagePartsFragment = { __typename: 'Page', title: string, blocks?: Array<{ __typename: 'PageBlocksHero', tagline?: string | null, headline?: string | null, text?: any | null, color?: string | null, actions?: Array<{ __typename: 'PageBlocksHeroActions', label?: string | null, type?: string | null, icon?: boolean | null, link?: string | null } | null> | null, image?: { __typename: 'PageBlocksHeroImage', src?: string | null, alt?: string | null } | null } | { __typename: 'PageBlocksFeatures', color?: string | null, items?: Array<{ __typename: 'PageBlocksFeaturesItems', title?: string | null, text?: string | null, icon?: { __typename: 'PageBlocksFeaturesItemsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | { __typename: 'PageBlocksContent', body?: any | null, color?: string | null } | { __typename: 'PageBlocksTestimonial', quote?: string | null, author?: string | null, color?: string | null } | null> | null };
 
-export type PostsQueryVariables = Exact<{
+export type GlobalQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename: 'Posts', id: string, title?: string | null, description?: string | null, date?: string | null, tags?: string | null, imageUrl?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type GlobalQuery = { __typename?: 'Query', global: { __typename: 'Global', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, header?: { __typename: 'GlobalHeader', name?: string | null, color?: string | null, icon?: { __typename: 'GlobalHeaderIcon', name?: string | null, color?: string | null, style?: string | null } | null, nav?: Array<{ __typename: 'GlobalHeaderNav', href?: string | null, label?: string | null, outlined?: boolean | null } | null> | null } | null, footer?: { __typename: 'GlobalFooter', color?: string | null, social?: { __typename: 'GlobalFooterSocial', facebook?: string | null, twitter?: string | null, instagram?: string | null, github?: string | null } | null } | null, theme?: { __typename: 'GlobalTheme', color?: string | null, font?: string | null, darkMode?: string | null } | null } };
 
-export type PostsConnectionQueryVariables = Exact<{
+export type GlobalConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<PostsFilter>;
+  filter?: InputMaybe<GlobalFilter>;
 }>;
 
 
-export type PostsConnectionQuery = { __typename?: 'Query', postsConnection: { __typename?: 'PostsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostsConnectionEdges', cursor: string, node?: { __typename: 'Posts', id: string, title?: string | null, description?: string | null, date?: string | null, tags?: string | null, imageUrl?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type GlobalConnectionQuery = { __typename?: 'Query', globalConnection: { __typename?: 'GlobalConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'GlobalConnectionEdges', cursor: string, node?: { __typename: 'Global', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, header?: { __typename: 'GlobalHeader', name?: string | null, color?: string | null, icon?: { __typename: 'GlobalHeaderIcon', name?: string | null, color?: string | null, style?: string | null } | null, nav?: Array<{ __typename: 'GlobalHeaderNav', href?: string | null, label?: string | null, outlined?: boolean | null } | null> | null } | null, footer?: { __typename: 'GlobalFooter', color?: string | null, social?: { __typename: 'GlobalFooterSocial', facebook?: string | null, twitter?: string | null, instagram?: string | null, github?: string | null } | null } | null, theme?: { __typename: 'GlobalTheme', color?: string | null, font?: string | null, darkMode?: string | null } | null } | null } | null> | null } };
 
 export type PostQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -853,15 +915,43 @@ export type PageConnectionQueryVariables = Exact<{
 
 export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHero', tagline?: string | null, headline?: string | null, text?: any | null, color?: string | null, actions?: Array<{ __typename: 'PageBlocksHeroActions', label?: string | null, type?: string | null, icon?: boolean | null, link?: string | null } | null> | null, image?: { __typename: 'PageBlocksHeroImage', src?: string | null, alt?: string | null } | null } | { __typename: 'PageBlocksFeatures', color?: string | null, items?: Array<{ __typename: 'PageBlocksFeaturesItems', title?: string | null, text?: string | null, icon?: { __typename: 'PageBlocksFeaturesItemsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | { __typename: 'PageBlocksContent', body?: any | null, color?: string | null } | { __typename: 'PageBlocksTestimonial', quote?: string | null, author?: string | null, color?: string | null } | null> | null } | null } | null> | null } };
 
-export const PostsPartsFragmentDoc = gql`
-    fragment PostsParts on Posts {
+export const GlobalPartsFragmentDoc = gql`
+    fragment GlobalParts on Global {
   __typename
-  title
-  description
-  date
-  tags
-  imageUrl
-  body
+  header {
+    __typename
+    icon {
+      __typename
+      name
+      color
+      style
+    }
+    name
+    color
+    nav {
+      __typename
+      href
+      label
+      outlined
+    }
+  }
+  footer {
+    __typename
+    color
+    social {
+      __typename
+      facebook
+      twitter
+      instagram
+      github
+    }
+  }
+  theme {
+    __typename
+    color
+    font
+    darkMode
+  }
 }
     `;
 export const PostPartsFragmentDoc = gql`
@@ -949,9 +1039,9 @@ export const PagePartsFragmentDoc = gql`
   }
 }
     `;
-export const PostsDocument = gql`
-    query posts($relativePath: String!) {
-  posts(relativePath: $relativePath) {
+export const GlobalDocument = gql`
+    query global($relativePath: String!) {
+  global(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -963,13 +1053,13 @@ export const PostsDocument = gql`
       }
       id
     }
-    ...PostsParts
+    ...GlobalParts
   }
 }
-    ${PostsPartsFragmentDoc}`;
-export const PostsConnectionDocument = gql`
-    query postsConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PostsFilter) {
-  postsConnection(
+    ${GlobalPartsFragmentDoc}`;
+export const GlobalConnectionDocument = gql`
+    query globalConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: GlobalFilter) {
+  globalConnection(
     before: $before
     after: $after
     first: $first
@@ -998,12 +1088,12 @@ export const PostsConnectionDocument = gql`
           }
           id
         }
-        ...PostsParts
+        ...GlobalParts
       }
     }
   }
 }
-    ${PostsPartsFragmentDoc}`;
+    ${GlobalPartsFragmentDoc}`;
 export const PostDocument = gql`
     query post($relativePath: String!) {
   post(relativePath: $relativePath) {
@@ -1172,11 +1262,11 @@ export const PageConnectionDocument = gql`
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
-      posts(variables: PostsQueryVariables, options?: C): Promise<{data: PostsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsQueryVariables, query: string}> {
-        return requester<{data: PostsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsQueryVariables, query: string}, PostsQueryVariables>(PostsDocument, variables, options);
+      global(variables: GlobalQueryVariables, options?: C): Promise<{data: GlobalQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: GlobalQueryVariables, query: string}> {
+        return requester<{data: GlobalQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: GlobalQueryVariables, query: string}, GlobalQueryVariables>(GlobalDocument, variables, options);
       },
-    postsConnection(variables?: PostsConnectionQueryVariables, options?: C): Promise<{data: PostsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsConnectionQueryVariables, query: string}> {
-        return requester<{data: PostsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsConnectionQueryVariables, query: string}, PostsConnectionQueryVariables>(PostsConnectionDocument, variables, options);
+    globalConnection(variables?: GlobalConnectionQueryVariables, options?: C): Promise<{data: GlobalConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: GlobalConnectionQueryVariables, query: string}> {
+        return requester<{data: GlobalConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: GlobalConnectionQueryVariables, query: string}, GlobalConnectionQueryVariables>(GlobalConnectionDocument, variables, options);
       },
     post(variables: PostQueryVariables, options?: C): Promise<{data: PostQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostQueryVariables, query: string}> {
         return requester<{data: PostQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostQueryVariables, query: string}, PostQueryVariables>(PostDocument, variables, options);
@@ -1237,7 +1327,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/1.4/content/df4d12b2-9a2c-40e2-a002-5d6bb3f08863/github/master",
         queries,
       })
     )

@@ -7,10 +7,15 @@ import { ColorPickerInput } from '../components/fields/color';
 import { iconSchema } from '../components/util/icon';
 import {Global } from '../types/global'
 export const BlogPosts = {
-  label: 'Blog Posts',
+  label: 'BlogPos',
   name: 'posts',
   path: 'posts',
   format: 'mdx',
+  ui: {
+    router: ({ document }) => {
+      return `/oposts/${document._sys.filename}`;
+    },
+  },
   fields: [
     {
       type: 'string',
@@ -172,7 +177,7 @@ export const BlogPosts = {
 export const shouldEncode = (path: string, value: string) => {};
 
 export const posts = {
-  label: 'Blog Posts',
+  label: 'Post',
   name: 'post',
   path: 'content/posts',
   format: 'mdx',
@@ -327,6 +332,7 @@ export const global = {
             defaultItem: {
               href: 'home',
               label: 'Home',
+              outlined: false,
             },
           },
           fields: [
@@ -339,6 +345,11 @@ export const global = {
               type: 'string',
               label: 'Label',
               name: 'label',
+            },
+            {
+              type: 'boolean',
+              label: 'Button',
+              name: 'outlined',
             },
           ],
         },

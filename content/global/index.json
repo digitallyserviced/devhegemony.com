@@ -9,15 +9,24 @@
     "color": "default",
     "nav": [
       {
+        "href": "/pricing",
+        "label": "Pricing",
+        "title": "Pricing",
+        "outlined": true
+      },
+      {
         "href": "",
+        "title": "Home",
         "label": "Home"
       },
       {
         "href": "about",
+        "title": "About",
         "label": "About"
       },
       {
         "href": "posts",
+        "title": "Posts",
         "label": "Blog"
       }
     ]

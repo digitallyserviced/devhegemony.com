@@ -1,4 +1,4 @@
-import NextImage from 'next/image';
+import NextImage from "next/legacy/image";
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { media } from 'utils/media';

@@ -53,8 +53,8 @@ type Query {
   collections: [Collection!]!
   node(id: String): Node!
   document(collection: String, relativePath: String): DocumentNode!
-  posts(relativePath: String): Posts!
-  postsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostsFilter): PostsConnection!
+  global(relativePath: String): Global!
+  globalConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: GlobalFilter): GlobalConnection!
   post(relativePath: String): Post!
   postConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostFilter): PostConnection!
   author(relativePath: String): Author!
@@ -64,7 +64,7 @@ type Query {
 }
 
 input DocumentFilter {
-  posts: PostsFilter
+  global: GlobalFilter
   post: PostFilter
   author: AuthorFilter
   page: PageFilter
@@ -93,15 +93,49 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Posts | Post | Author | Page | Folder
+union DocumentNode = Global | Post | Author | Page | Folder
 
-type Posts implements Node & Document {
-  title: String
-  description: String
-  date: String
-  tags: String
-  imageUrl: String
-  body: JSON
+type GlobalHeaderIcon {
+  name: String
+  color: String
+  style: String
+}
+
+type GlobalHeaderNav {
+  href: String
+  label: String
+  outlined: Boolean
+}
+
+type GlobalHeader {
+  icon: GlobalHeaderIcon
+  name: String
+  color: String
+  nav: [GlobalHeaderNav]
+}
+
+type GlobalFooterSocial {
+  facebook: String
+  twitter: String
+  instagram: String
+  github: String
+}
+
+type GlobalFooter {
+  color: String
+  social: GlobalFooterSocial
+}
+
+type GlobalTheme {
+  color: String
+  font: String
+  darkMode: String
+}
+
+type Global implements Node & Document {
+  header: GlobalHeader
+  footer: GlobalFooter
+  theme: GlobalTheme
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -114,15 +148,10 @@ input StringFilter {
   in: [String]
 }
 
-input PostsBodyQuoteFilter {
-  content: StringFilter
-  author: StringFilter
-  cite: StringFilter
-}
-
-input PostsBodyArticleImageFilter {
-  src: StringFilter
-  caption: StringFilter
+input GlobalHeaderIconFilter {
+  name: StringFilter
+  color: StringFilter
+  style: StringFilter
 }
 
 input BooleanFilter {
@@ -130,59 +159,52 @@ input BooleanFilter {
   exists: Boolean
 }
 
-input PostsBodyCodeFilter {
-  code: StringFilter
-  language: StringFilter
-  selectedLines: StringFilter
-  withCopyButton: BooleanFilter
-  withLineNumbers: BooleanFilter
-  caption: StringFilter
+input GlobalHeaderNavFilter {
+  href: StringFilter
+  label: StringFilter
+  outlined: BooleanFilter
 }
 
-input PostsBodyH2Filter {
-  src: StringFilter
+input GlobalHeaderFilter {
+  icon: GlobalHeaderIconFilter
+  name: StringFilter
+  color: StringFilter
+  nav: GlobalHeaderNavFilter
 }
 
-input PostsBodyH3Filter {
-  src: StringFilter
+input GlobalFooterSocialFilter {
+  facebook: StringFilter
+  twitter: StringFilter
+  instagram: StringFilter
+  github: StringFilter
 }
 
-input PostsBodyBrFilter {
-  src: StringFilter
+input GlobalFooterFilter {
+  color: StringFilter
+  social: GlobalFooterSocialFilter
 }
 
-input PostsBodyPFilter {
-  src: StringFilter
+input GlobalThemeFilter {
+  color: StringFilter
+  font: StringFilter
+  darkMode: StringFilter
 }
 
-input PostsBodyFilter {
-  Quote: PostsBodyQuoteFilter
-  ArticleImage: PostsBodyArticleImageFilter
-  Code: PostsBodyCodeFilter
-  h2: PostsBodyH2Filter
-  h3: PostsBodyH3Filter
-  br: PostsBodyBrFilter
-  p: PostsBodyPFilter
+input GlobalFilter {
+  header: GlobalHeaderFilter
+  footer: GlobalFooterFilter
+  theme: GlobalThemeFilter
 }
 
-input PostsFilter {
-  title: StringFilter
-  description: StringFilter
-  date: StringFilter
-  tags: StringFilter
-  imageUrl: StringFilter
-  body: PostsBodyFilter
-}
-
-type PostsConnectionEdges {
+type GlobalConnectionEdges {
   cursor: String!
-  node: Posts
+  node: Global
 }
 
-type PostsConnection implements Connection {
+type GlobalConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
-  edges: [PostsConnectionEdges]
+  edges: [GlobalConnectionEdges]
 }
 
 union PostAuthor = Author
@@ -441,8 +463,8 @@ type Mutation {
   updateDocument(collection: String, relativePath: String!, params: DocumentUpdateMutation!): DocumentNode!
   deleteDocument(collection: String, relativePath: String!): DocumentNode!
   createDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
-  updatePosts(relativePath: String!, params: PostsMutation!): Posts!
-  createPosts(relativePath: String!, params: PostsMutation!): Posts!
+  updateGlobal(relativePath: String!, params: GlobalMutation!): Global!
+  createGlobal(relativePath: String!, params: GlobalMutation!): Global!
   updatePost(relativePath: String!, params: PostMutation!): Post!
   createPost(relativePath: String!, params: PostMutation!): Post!
   updateAuthor(relativePath: String!, params: AuthorMutation!): Author!
@@ -452,7 +474,7 @@ type Mutation {
 }
 
 input DocumentUpdateMutation {
-  posts: PostsMutation
+  global: GlobalMutation
   post: PostMutation
   author: AuthorMutation
   page: PageMutation
@@ -460,19 +482,53 @@ input DocumentUpdateMutation {
 }
 
 input DocumentMutation {
-  posts: PostsMutation
+  global: GlobalMutation
   post: PostMutation
   author: AuthorMutation
   page: PageMutation
 }
 
-input PostsMutation {
-  title: String
-  description: String
-  date: String
-  tags: String
-  imageUrl: String
-  body: JSON
+input GlobalHeaderIconMutation {
+  name: String
+  color: String
+  style: String
+}
+
+input GlobalHeaderNavMutation {
+  href: String
+  label: String
+  outlined: Boolean
+}
+
+input GlobalHeaderMutation {
+  icon: GlobalHeaderIconMutation
+  name: String
+  color: String
+  nav: [GlobalHeaderNavMutation]
+}
+
+input GlobalFooterSocialMutation {
+  facebook: String
+  twitter: String
+  instagram: String
+  github: String
+}
+
+input GlobalFooterMutation {
+  color: String
+  social: GlobalFooterSocialMutation
+}
+
+input GlobalThemeMutation {
+  color: String
+  font: String
+  darkMode: String
+}
+
+input GlobalMutation {
+  header: GlobalHeaderMutation
+  footer: GlobalFooterMutation
+  theme: GlobalThemeMutation
 }
 
 input PostMutation {

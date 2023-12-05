@@ -50,14 +50,17 @@ export const Feature = ({
 
 export const Features = ({ data }: { data: PageBlocksFeatures }) => {
   return (
-    <Section color={data.color}>
+    <Section color={data.color as string}>
       <Container
         className={`flex flex-wrap gap-x-10 gap-y-8 text-left`}
         size="large"
       >
         {data.items &&
           data.items.map(function (block, i) {
-            return <Feature featuresColor={data.color} key={i} data={block} />
+            if (!block) {
+              return null
+            }
+            return <Feature featuresColor={data.color as string} key={i} data={block} />
           })}
       </Container>
     </Section>
@@ -90,7 +93,7 @@ export const featureBlockSchema = {
       name: 'items',
       list: true,
       ui: {
-        itemProps: (item) => {
+        itemProps: (item:{title:string}) => {
           return {
             label: item?.title,
           }

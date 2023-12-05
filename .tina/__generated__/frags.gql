@@ -1,11 +1,39 @@
-fragment PostsParts on Posts {
+fragment GlobalParts on Global {
   __typename
-  title
-  description
-  date
-  tags
-  imageUrl
-  body
+  header {
+    __typename
+    icon {
+      __typename
+      name
+      color
+      style
+    }
+    name
+    color
+    nav {
+      __typename
+      href
+      label
+      outlined
+    }
+  }
+  footer {
+    __typename
+    color
+    social {
+      __typename
+      facebook
+      twitter
+      instagram
+      github
+    }
+  }
+  theme {
+    __typename
+    color
+    font
+    darkMode
+  }
 }
 
 fragment PostParts on Post {
