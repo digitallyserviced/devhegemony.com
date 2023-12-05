@@ -1,18 +1,20 @@
 const CopyPlugin = require('copy-webpack-plugin');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+  enabled: process.env.ANALYZE === 'false',
 });
 
 module.exports = withBundleAnalyzer({
-  reactStrictMode: true,
+  output: 'export',
+  trailingSlash: true,
+  reactStrictMode: false,
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
     domains: ['github.blog'],
     deviceSizes: [320, 640, 1080, 1200],
     imageSizes: [64, 128],
   },
-  swcMinify: true,
+  swcMinify: false,
   compiler: {
     styledComponents: true,
   },

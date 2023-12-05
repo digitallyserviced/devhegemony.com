@@ -6,7 +6,9 @@
     "dev": "TINA_PUBLIC_IS_LOCAL=true yarn tinacms dev -c \"next dev\"",
     "build": "yarn tinacms build && next build",
     "start": "yarn tinacms server:start -c \"next start\"",
+    "export": "yarn tinacms build && next export",
     "lint": "next lint",
+    "export":"yarn tinacms build -c 'yarn next build --no-lint -v'",
     "build:gh": "yarn tinacms build"
   },
   "engines":{

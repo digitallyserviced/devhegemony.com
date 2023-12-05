@@ -4,6 +4,7 @@ import { useTina } from 'tinacms/dist/react'
 import { Layout } from '../components/layout'
 import React from 'react'
 import client from '.tina/__generated__/client'
+import globalData from '../content/global/index.json'
 
 export default function HomePage(
   props: InferGetStaticPropsType<typeof getStaticProps>
@@ -11,7 +12,7 @@ export default function HomePage(
   const { data } = useTina(props)
 
   return (
-    <Layout rawData={data} data={data.global }>
+    <Layout rawData={data} data={globalData}>
       <Blocks {...data.page} />
     </Layout>
   )
