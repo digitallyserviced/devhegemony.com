@@ -2,8 +2,8 @@ import { InferGetStaticPropsType } from 'next'
 import { Blocks } from '../components/blocks-renderer'
 import { useTina } from 'tinacms/dist/react'
 import { Layout } from '../components/layout'
-import { client } from '../.tina/__generated__/client'
 import React from 'react'
+import client from '.tina/__generated__/client'
 
 export default function HomePage(
   props: InferGetStaticPropsType<typeof getStaticProps>
@@ -11,15 +11,15 @@ export default function HomePage(
   const { data } = useTina(props)
 
   return (
-    <Layout rawData={data} data={data.global as any}>
+    <Layout rawData={data} data={data.global }>
       <Blocks {...data.page} />
     </Layout>
   )
 }
 
 export const getStaticProps = async ({ params }) => {
-  const tinaProps = await client.queries.contentQuery({
-    relativePath: `${params.filename}.md`,
+  const tinaProps = await client.queries.page({
+    relativePath: `${params.filename.length>3?params.filename:'home'}.md`,
   })
   return {
     props: {

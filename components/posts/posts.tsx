@@ -4,9 +4,9 @@ import { TinaMarkdown } from 'tinacms/dist/rich-text'
 import { BsArrowRight } from 'react-icons/bs'
 import { useTheme } from '../layout'
 import format from 'date-fns/format'
-import { PostsType } from '../../pages/posts'
+// import { PostsType } from '../../pages/posts'
 
-export const Posts = ({ data }: { data: PostsType[] }) => {
+export const Posts = ({ data }: { data: Array<any> }) => {
   const theme = useTheme()
   const titleColorClasses = {
     blue: 'group-hover:text-blue-600 dark:group-hover:text-blue-300',
